@@ -42,19 +42,21 @@
       border-radius: 9999px; /* Make buttons pill-shaped */
       cursor: pointer;
       font-size: 1rem;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Added transform and box-shadow transitions */
       margin-left: 10px;
       box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     }
     .auth-buttons button:hover {
       background-color: #8c07b8;
+      transform: translateY(-2px); /* Slight lift on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
     }
     .nav-link { /* Style for new Credits link */
         color: #e0e0e0;
         text-decoration: none;
         padding: 0.8rem 1.5rem;
         border-radius: 9999px; /* Make nav links pill-shaped */
-        transition: background-color 0.3s ease;
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Added transform and box-shadow transitions */
         margin-left: 10px;
         font-size: 1rem;
         background-color: #4a4a6a; /* A subtle background for nav links */
@@ -62,6 +64,8 @@
     }
     .nav-link:hover {
         background-color: #6a6a8a;
+        transform: translateY(-2px); /* Slight lift on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
     }
     main {
       padding: 2rem;
@@ -74,7 +78,21 @@
       border-radius: 8px;
       margin-bottom: 1.5rem;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      opacity: 0; /* Start hidden for fade-in */
+      transform: translateY(20px); /* Start slightly below for slide-up */
+      animation: sectionFadeIn 0.8s ease-out forwards; /* Animation for sections */
     }
+    /* Delay animation for subsequent sections */
+    section:nth-of-type(2) { animation-delay: 0.2s; }
+    section:nth-of-type(3) { animation-delay: 0.4s; }
+
+    @keyframes sectionFadeIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     h2, h3 {
       color: #ffc107;
       border-bottom: 2px solid #444;
@@ -108,7 +126,7 @@
     input,
     input::file-selector-button,
     textarea,
-    select {
+    select { /* Keeping select for now, but custom dropdown will replace its function */
       width: calc(100% - 22px); /* Account for padding */
       padding: 10px;
       margin: 0.8rem 0;
@@ -146,14 +164,15 @@
       border-radius: 9999px; /* Make buttons pill-shaped */
       cursor: pointer;
       font-size: 1.1rem;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Added transform and box-shadow transitions */
       margin-right: 10px;
       margin-bottom: 10px;
       box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
     }
     button:hover {
       background-color: #0056b3;
-      transform: scale(1.02);
+      transform: translateY(-2px); /* Slight lift on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
     }
     button.delete-btn {
       background-color: #dc3545; /* Red */
@@ -166,6 +185,7 @@
       cursor: not-allowed;
       transform: none;
       opacity: 0.8;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Keep shadow on disabled */
     }
 
     /* Webtoon Viewer Styles */
@@ -178,6 +198,8 @@
       border-radius: 8px;
       margin-top: 1rem;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+      opacity: 0; /* Start hidden for image fade-in */
+      transition: opacity 0.5s ease-in-out; /* Smooth fade-in for images */
     }
     .episode-nav {
       margin-top: 1.5rem;
@@ -230,7 +252,7 @@
       padding: 15px 20px;
       border-radius: 8px; /* Slightly more rounded comment items */
       margin-bottom: 15px;
-      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Adjusted shadow for consistency */
     }
     .comment-author {
       font-weight: bold;
@@ -278,7 +300,7 @@
       padding: 12px 20px;
       cursor: pointer;
       font-size: 1.1rem;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Added transform and box-shadow transitions */
       border-radius: 9999px; /* Make tab buttons pill-shaped */
       font-weight: bold;
       margin-right: 10px; /* Adjust margin for tabs */
@@ -286,10 +308,14 @@
     }
     .admin-tabs button:hover {
       background-color: #4a4a6a;
+      transform: translateY(-2px); /* Slight lift on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
     }
     .admin-tabs button.active {
       background-color: #007bff;
       color: white;
+      transform: none; /* No lift on active tab */
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Keep original shadow on active */
     }
     .tab-content {
       display: none;
@@ -318,6 +344,11 @@
       padding: 8px 12px;
       font-size: 0.9rem;
       border-radius: 9999px; /* Make admin list item buttons pill-shaped */
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Added transform and box-shadow transitions */
+    }
+    .admin-list-item button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     }
     #currentSelectedSeries {
         color: #ffc107;
@@ -332,6 +363,95 @@
         margin-bottom: 5px;
         color: #bbb;
         font-weight: bold;
+    }
+
+    /* Custom Dropdown Styles */
+    .custom-dropdown-container {
+        position: relative;
+        display: inline-block;
+        width: 100%; /* Take full width of parent */
+        margin-top: 0.8rem;
+        margin-bottom: 0.8rem;
+        text-align: left; /* Align label and dropdown text to left */
+    }
+    .custom-dropdown-button {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #555;
+        background-color: #3a3a5a;
+        color: #e0e0e0;
+        border-radius: 8px; /* Matches input border-radius */
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    .custom-dropdown-button:hover,
+    .custom-dropdown-button.active {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        outline: none;
+    }
+    .custom-dropdown-button::after {
+        content: '▼'; /* Down arrow */
+        font-size: 0.8em;
+        margin-left: 10px;
+        transition: transform 0.2s ease;
+    }
+    .custom-dropdown-button.active::after {
+        transform: rotate(180deg); /* Up arrow when active */
+    }
+    .custom-dropdown-list {
+        position: absolute;
+        width: 100%;
+        background-color: #2a2a4a; /* Matches section background */
+        border: 1px solid #555;
+        border-top: none;
+        border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 100;
+        display: none; /* Hidden by default */
+        animation: fadeIn 0.3s ease-out; /* Fade-in animation for list */
+    }
+    .custom-dropdown-list.open {
+        display: block;
+    }
+    .custom-dropdown-list-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        font-size: 1rem;
+        border-bottom: 1px solid #3a3a5a; /* Separator between items */
+    }
+    .custom-dropdown-list-item:last-child {
+        border-bottom: none;
+    }
+    .custom-dropdown-list-item:hover {
+        background-color: #4a4a6a; /* Matches hover of other list items */
+    }
+    .custom-dropdown-list-item.selected {
+        background-color: #007bff; /* Active color */
+        color: white;
+        font-weight: bold;
+    }
+    /* Custom Notification Animations */
+    .notification {
+        animation: fadeInOut 3s forwards;
+    }
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
   </style>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
@@ -356,10 +476,11 @@
     <section id="webtoonViewer">
       <h2>Webtoon Viewer</h2>
       <div id="seriesSelector" style="margin-bottom: 2rem;">
-        <label for="selectSeries">Select Series:</label>
-        <select id="selectSeries">
-          <option value="">Loading series...</option>
-        </select>
+        <label for="seriesDropdown">Select Series:</label>
+        <div class="custom-dropdown-container">
+            <div id="seriesDropdownButton" class="custom-dropdown-button">Select a series</div>
+            <div id="seriesDropdownList" class="custom-dropdown-list"></div>
+        </div>
       </div>
 
       <h3 id="currentSeriesTitle">No Series Selected</h3>
@@ -414,10 +535,11 @@
       <div id="episodeManagementTab" class="tab-content">
         <h3>Manage Episodes for: <span id="currentSelectedSeries">None Selected</span></h3>
         <div id="selectSeriesForEpisodeManagement" style="margin-bottom: 1rem;">
-            <label for="selectSeriesAdmin">Select Series:</label>
-            <select id="selectSeriesAdmin">
-                <option value="">Choose a series to manage episodes...</option>
-            </select>
+            <label for="adminSeriesDropdown">Select Series:</label>
+            <div class="custom-dropdown-container">
+                <div id="adminSeriesDropdownButton" class="custom-dropdown-button">Select a series</div>
+                <div id="adminSeriesDropdownList" class="custom-dropdown-list"></div>
+            </div>
         </div>
 
         <div id="addEpisodeForm" style="display: none;">
@@ -472,7 +594,18 @@
     const signInBtn = document.getElementById("signInBtn");
     const signOutBtn = document.getElementById("signOutBtn");
     const adminPanel = document.getElementById("adminPanel");
-    const selectSeries = document.getElementById("selectSeries");
+
+    // Custom Dropdown Elements (Viewer)
+    const seriesDropdownButton = document.getElementById("seriesDropdownButton");
+    const seriesDropdownList = document.getElementById("seriesDropdownList");
+    let viewerDropdownOpen = false;
+
+    // Custom Dropdown Elements (Admin)
+    const adminSeriesDropdownButton = document.getElementById("adminSeriesDropdownButton");
+    const adminSeriesDropdownList = document.getElementById("adminSeriesDropdownList");
+    let adminDropdownOpen = false;
+
+
     const currentSeriesTitle = document.getElementById("currentSeriesTitle");
     const currentEpisodeTitle = document.getElementById("currentEpisodeTitle");
     const episodeImage = document.getElementById("episodeImage");
@@ -488,7 +621,7 @@
     const newSeriesNameInput = document.getElementById("newSeriesName");
     const newSeriesDescriptionInput = document.getElementById("newSeriesDescription");
     const existingSeriesListDiv = document.getElementById("existingSeriesList");
-    const selectSeriesAdmin = document.getElementById("selectSeriesAdmin");
+    // const selectSeriesAdmin = document.getElementById("selectSeriesAdmin"); // Replaced by custom dropdown
     const currentSelectedSeriesSpan = document.getElementById("currentSelectedSeries");
     const addEpisodeForm = document.getElementById("addEpisodeForm");
     const newEpisodeTitleInput = document.getElementById("newEpisodeTitle");
@@ -506,6 +639,7 @@
     let currentEpisodeIndex = -1;
     let currentUser = null;
     let isAdmin = false;
+    let allSeriesData = []; // To store all series for both dropdowns
 
     // --- Utility Functions for User Comfort ---
     function showNotification(message, type = 'info') {
@@ -521,6 +655,7 @@
       notification.style.borderRadius = '5px';
       notification.style.zIndex = '1000';
       notification.style.textAlign = 'center';
+      notification.classList.add('notification'); /* Add class for animation */
       document.body.appendChild(notification);
       setTimeout(() => {
         notification.remove();
@@ -600,40 +735,97 @@
       loadCommentsForCurrentEpisode();
     });
 
+    // --- Custom Dropdown Logic ---
+    function toggleDropdown(button, list, isOpenVar, setterFunc) {
+        if (isOpenVar) {
+            list.classList.remove('open');
+            button.classList.remove('active');
+            setterFunc(false);
+        } else {
+            // Close any other open dropdowns first
+            closeAllDropdowns();
+            list.classList.add('open');
+            button.classList.add('active');
+            setterFunc(true);
+        }
+    }
+
+    function closeAllDropdowns() {
+        if (viewerDropdownOpen) {
+            seriesDropdownList.classList.remove('open');
+            seriesDropdownButton.classList.remove('active');
+            viewerDropdownOpen = false;
+        }
+        if (adminDropdownOpen) {
+            adminSeriesDropdownList.classList.remove('open');
+            adminSeriesDropdownButton.classList.remove('active');
+            adminDropdownOpen = false;
+        }
+    }
+
+    // Close dropdowns if user clicks outside
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.custom-dropdown-container')) {
+            closeAllDropdowns();
+        }
+    });
+
     // --- Webtoon Viewer Logic ---
     async function loadSeriesSelector() {
-      selectSeries.innerHTML = '<option value="">Loading series...</option>';
+      seriesDropdownList.innerHTML = ''; // Clear previous options
+      seriesDropdownButton.innerText = 'Loading series...';
       try {
         const seriesSnapshot = await db.collection("series").orderBy("createdAt", "asc").get();
+        allSeriesData = []; // Clear and repopulate global series data
+
         if (seriesSnapshot.empty) {
-          selectSeries.innerHTML = '<option value="">No series available. Admins can add new series.</option>';
+          seriesDropdownButton.innerText = 'No series available.';
           return;
         }
-        selectSeries.innerHTML = '<option value="">Select a series</option>'; // Default empty option
+        
         seriesSnapshot.forEach(doc => {
-          const seriesData = doc.data();
-          const option = document.createElement("option");
-          option.value = doc.id;
-          option.innerText = sanitizeInput(seriesData.name);
-          selectSeries.appendChild(option);
+          const seriesData = { id: doc.id, ...doc.data() };
+          allSeriesData.push(seriesData);
+
+          const optionItem = document.createElement("div");
+          optionItem.classList.add("custom-dropdown-list-item");
+          optionItem.dataset.value = doc.id;
+          optionItem.innerText = sanitizeInput(seriesData.name);
+          optionItem.onclick = () => {
+            seriesDropdownButton.innerText = sanitizeInput(seriesData.name); // Update button text
+            seriesDropdownButton.dataset.value = doc.id; // Store selected value
+            closeAllDropdowns();
+            loadSeries(doc.id); // Load the selected series
+          };
+          seriesDropdownList.appendChild(optionItem);
         });
 
-        // Try to load the first series by default if available and no series is currently selected
-        if (seriesSnapshot.docs.length > 0 && !currentSeriesId) {
-            const firstSeriesId = seriesSnapshot.docs[0].id;
-            selectSeries.value = firstSeriesId; // Set the dropdown to the first series
-            loadSeries(firstSeriesId);
-        } else if (currentSeriesId) {
-            // If a series is already selected (e.g., after refreshing admin section), keep it selected
-            selectSeries.value = currentSeriesId;
+        // Set initial state for viewer dropdown
+        if (allSeriesData.length > 0) {
+            let initialSeries = allSeriesData[0];
+            if (currentSeriesId) {
+                // If a series was already selected, find it in the new data
+                const foundSeries = allSeriesData.find(s => s.id === currentSeriesId);
+                if (foundSeries) initialSeries = foundSeries;
+            }
+            seriesDropdownButton.innerText = sanitizeInput(initialSeries.name);
+            seriesDropdownButton.dataset.value = initialSeries.id;
+            loadSeries(initialSeries.id); // Load the default or previously selected series
+        } else {
+            seriesDropdownButton.innerText = 'Select a series';
         }
 
       } catch (error) {
         console.error("Error loading series selector:", error);
-        selectSeries.innerHTML = '<option value="">Error loading series</option>';
+        seriesDropdownButton.innerText = 'Error loading series';
         showNotification("Failed to load series. Please check your internet connection.", "error");
       }
     }
+
+    seriesDropdownButton.onclick = (event) => {
+        event.stopPropagation(); // Prevent document click from closing immediately
+        toggleDropdown(seriesDropdownButton, seriesDropdownList, viewerDropdownOpen, (val) => viewerDropdownOpen = val);
+    };
 
     async function loadSeries(seriesId) {
       if (!seriesId) {
@@ -732,18 +924,31 @@
         if (episodeDoc.exists) {
           const episodeData = episodeDoc.data();
           currentEpisodeTitle.innerText = `Episode ${episodeData.order}: ${sanitizeInput(episodeData.title)}`;
+          // Fade in the image
+          episodeImage.style.opacity = '0'; // Set to 0 before changing src
           episodeImage.src = sanitizeInput(episodeData.imageUrl);
           episodeImage.alt = `Episode ${episodeData.order}: ${sanitizeInput(episodeData.title)}`;
+          episodeImage.onload = () => { // Fade in once image is loaded
+            episodeImage.style.opacity = '1';
+          };
+          episodeImage.onerror = () => { // Handle image loading errors
+            console.error("Error loading episode image:", episodeData.imageUrl);
+            episodeImage.src = "https://placehold.co/600x400/3A3A5A/E0E0E0?text=Image+Load+Error"; // Placeholder for error
+            episodeImage.style.opacity = '1';
+            showNotification("Failed to load episode image.", "error");
+          };
           scrollToTop(); // Scroll to top after loading new episode
         } else {
           currentEpisodeTitle.innerText = "Episode not found.";
           episodeImage.src = ""; // Clear image
+          episodeImage.style.opacity = '1'; // Ensure it's visible even if empty
           showNotification("Selected episode does not exist.", "error");
         }
       } catch (error) {
         console.error("Error loading episode:", error);
         currentEpisodeTitle.innerText = "Error loading episode";
         episodeImage.src = "";
+        episodeImage.style.opacity = '1';
         showNotification("Failed to load episode content.", "error");
       }
 
@@ -767,10 +972,6 @@
       if (currentEpisodeIndex < allEpisodesInCurrentSeries.length - 1) {
         loadEpisode(allEpisodesInCurrentSeries[currentEpisodeIndex + 1].id);
       }
-    };
-
-    selectSeries.onchange = (event) => {
-      loadSeries(event.target.value);
     };
 
     // --- Comments Logic ---
@@ -979,57 +1180,77 @@
 
     // --- Admin: Episode Management ---
     async function loadSeriesForEpisodeManagement() {
-        selectSeriesAdmin.innerHTML = '<option value="">Loading series...</option>';
+        adminSeriesDropdownList.innerHTML = ''; // Clear previous options
+        adminSeriesDropdownButton.innerText = 'Loading series...';
         try {
-            const seriesSnapshot = await db.collection("series").orderBy("createdAt", "asc").get();
-            if (seriesSnapshot.empty) {
-                selectSeriesAdmin.innerHTML = '<option value="">No series to manage episodes for</option>';
+            // Use the already fetched allSeriesData if available, otherwise fetch again
+            const seriesSnapshot = allSeriesData.length > 0 ? { docs: allSeriesData.map(s => ({ id: s.id, data: () => s })) } : await db.collection("series").orderBy("createdAt", "asc").get();
+            
+            if (seriesSnapshot.empty || seriesSnapshot.docs.length === 0) {
+                adminSeriesDropdownButton.innerText = 'No series to manage.';
                 currentSelectedSeriesSpan.innerText = "None Selected";
                 addEpisodeForm.style.display = 'none';
                 episodesInCurrentSeriesDiv.innerHTML = "";
                 noEpisodesMessage.style.display = 'block';
                 return;
             }
-            selectSeriesAdmin.innerHTML = '<option value="">Select a series</option>';
+            adminSeriesDropdownButton.innerText = 'Select a series'; // Default text
+
             seriesSnapshot.forEach(doc => {
                 const seriesData = doc.data();
-                const option = document.createElement("option");
-                option.value = doc.id;
-                option.innerText = sanitizeInput(seriesData.name);
-                selectSeriesAdmin.appendChild(option);
+                const optionItem = document.createElement("div");
+                optionItem.classList.add("custom-dropdown-list-item");
+                optionItem.dataset.value = doc.id;
+                optionItem.innerText = sanitizeInput(seriesData.name);
+                optionItem.onclick = () => {
+                    adminSeriesDropdownButton.innerText = sanitizeInput(seriesData.name); // Update button text
+                    adminSeriesDropdownButton.dataset.value = doc.id; // Store selected value
+                    closeAllDropdowns();
+                    // This calls the series change logic for admin section
+                    const selectedId = doc.id;
+                    if (selectedId) {
+                        currentSelectedSeriesSpan.innerText = sanitizeInput(seriesData.name);
+                        addEpisodeForm.style.display = 'block';
+                        loadEpisodesForAdmin(selectedId);
+                        noEpisodesMessage.style.display = 'none';
+                    } else {
+                        currentSelectedSeriesSpan.innerText = "None Selected";
+                        addEpisodeForm.style.display = 'none';
+                        episodesInCurrentSeriesDiv.innerHTML = "";
+                        noEpisodesMessage.style.display = 'block';
+                    }
+                };
+                adminSeriesDropdownList.appendChild(optionItem);
             });
 
-            // Clear display if no series selected initially or after refresh
-            currentSelectedSeriesSpan.innerText = "None Selected";
-            addEpisodeForm.style.display = 'none';
-            episodesInCurrentSeriesDiv.innerHTML = "";
-            noEpisodesMessage.style.display = 'block';
+            // Set initial state for admin dropdown if a series was already selected
+            if (adminSeriesDropdownButton.dataset.value) {
+                const selectedId = adminSeriesDropdownButton.dataset.value;
+                const selectedSeries = allSeriesData.find(s => s.id === selectedId);
+                if (selectedSeries) {
+                    adminSeriesDropdownButton.innerText = sanitizeInput(selectedSeries.name);
+                    currentSelectedSeriesSpan.innerText = sanitizeInput(selectedSeries.name);
+                    addEpisodeForm.style.display = 'block';
+                    loadEpisodesForAdmin(selectedId);
+                    noEpisodesMessage.style.display = 'none';
+                }
+            }
+
         } catch (error) {
             console.error("Error loading series for episode management:", error);
-            selectSeriesAdmin.innerHTML = '<option value="">Error loading series</option>';
+            adminSeriesDropdownButton.innerText = 'Error loading series';
             showNotification("Failed to load series for episode management.", "error");
         }
     }
 
-    selectSeriesAdmin.onchange = (event) => {
-        const selectedId = event.target.value;
-        if (selectedId) {
-            const selectedName = selectSeriesAdmin.options[selectSeriesAdmin.selectedIndex].text;
-            currentSelectedSeriesSpan.innerText = sanitizeInput(selectedName);
-            addEpisodeForm.style.display = 'block';
-            loadEpisodesForAdmin(selectedId);
-            noEpisodesMessage.style.display = 'none';
-        } else {
-            currentSelectedSeriesSpan.innerText = "None Selected";
-            addEpisodeForm.style.display = 'none';
-            episodesInCurrentSeriesDiv.innerHTML = "";
-            noEpisodesMessage.style.display = 'block';
-        }
+    adminSeriesDropdownButton.onclick = (event) => {
+        event.stopPropagation(); // Prevent document click from closing immediately
+        toggleDropdown(adminSeriesDropdownButton, adminSeriesDropdownList, adminDropdownOpen, (val) => adminDropdownOpen = val);
     };
 
     async function addNewEpisode() {
-      const seriesId = selectSeriesAdmin.value;
-      if (!seriesId) {
+      const seriesId = adminSeriesDropdownButton.dataset.value; // Get selected series from custom dropdown
+      if (!seriesId || seriesId === 'Select a series') {
         showNotification("Please select a series first.", "error");
         return;
       }
@@ -1122,7 +1343,8 @@
                 `;
                 episodesInCurrentSeriesDiv.appendChild(episodeItem);
             });
-        } catch (error) {
+        }
+        catch (error) {
             console.error("Error loading episodes for admin:", error);
             episodesInCurrentSeriesDiv.innerHTML = "<p>Error loading episodes.</p>";
             showNotification("Failed to load episodes for admin panel.", "error");
