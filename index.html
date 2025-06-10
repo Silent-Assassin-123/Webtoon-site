@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Webtoon Hub</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1a1a2e; /* Darker blue/purple */
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      transition: background-color 0.3s ease, color 0.3s ease; /* For potential theme switching */
+    }
+    header {
+      background-color: #0f0f1c; /* Even darker for header */
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      margin: 0;
+      color: #ffc107; /* Gold accent */
+      font-size: 2.2rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .auth-buttons button {
+      background-color: #6a057f; /* Purple */
+      border: none;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+      margin-left: 10px;
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    .auth-buttons button:hover {
+      background-color: #8c07b8;
+    }
+    main {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    section {
+      background-color: #2a2a4a; /* Slightly lighter body */
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    h2, h3 {
+      color: #ffc107;
+      border-bottom: 2px solid #444;
+      padding-bottom: 0.7rem;
+      margin-top: 0;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+    }
+    h4 {
+      color: #bbb;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    /* Placeholder styling */
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+      color: #aaa;
+    }
+    input:-moz-placeholder,
+    textarea:-moz-placeholder {
+      color: #aaa;
+    }
+    input::-moz-placeholder,
+    textarea::-moz-placeholder {
+      color: #aaa;
+    }
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
+      color: #aaa;
+    }
+    /* Input, textarea, select base styles */
+    input,
+    input::file-selector-button,
+    textarea,
+    select {
+      width: calc(100% - 22px); /* Account for padding */
+      padding: 10px;
+      margin: 0.8rem 0;
+      border: 1px solid #555;
+      background-color: #3a3a5a;
+      color: #e0e0e0;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+    input::file-selector-button {
+      background-color: #555;
+      color: #e0e0e0;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    input::file-selector-button:hover {
+      background-color: #777;
+    }
+    button {
+      background-color: #007bff; /* Blue */
+      border: none;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+    }
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.02);
+    }
+    button.delete-btn {
+      background-color: #dc3545; /* Red */
+    }
+    button.delete-btn:hover {
+      background-color: #c82333;
+    }
+    button:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+      transform: none;
+      opacity: 0.8;
+    }
+
+    /* Webtoon Viewer Styles */
+    #webtoonViewer {
+      text-align: center;
+    }
+    #webtoonViewer img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    }
+    .episode-nav {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+    .episode-nav button {
+      flex-grow: 1;
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+    #episodeList {
+      margin-top: 1.5rem;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #444;
+      border-radius: 5px;
+      padding: 10px;
+      background-color: #3a3a5a;
+    }
+    #episodeList button {
+      display: block;
+      width: calc(100% - 20px); /* Adjust for padding */
+      background: none;
+      border: none;
+      text-align: left;
+      color: #e0e0e0;
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 3px;
+      transition: background-color 0.2s ease;
+    }
+    #episodeList button:hover {
+      background-color: #4a4a6a;
+    }
+    #episodeList button.active {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+    }
+
+    /* Comments Section */
+    #commentsSection {
+      margin-top: 2.5rem;
+    }
+    .comment-item {
+      background-color: #3a3a5a;
+      padding: 15px 20px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    .comment-author {
+      font-weight: bold;
+      color: #ffc107;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .comment-date {
+      font-size: 0.9em;
+      color: #bbb;
+      margin-left: 10px;
+    }
+    .comment-text {
+      margin-top: 8px;
+      line-height: 1.7;
+      white-space: pre-line; /* Preserve line breaks in comments */
+    }
+    #commentInput {
+      width: calc(100% - 22px); /* Adjust for padding */
+      min-height: 80px;
+      resize: vertical;
+      font-size: 1rem;
+    }
+    #commentInputSection button {
+      margin-top: 10px;
+    }
+    #commentSignInPrompt {
+      padding: 10px;
+      background-color: #3a3a5a;
+      border-radius: 4px;
+      text-align: center;
+      color: #bbb;
+    }
+
+    /* Admin Panel Tabs */
+    .admin-tabs {
+      display: flex;
+      border-bottom: 2px solid #444;
+      margin-bottom: 1.5rem;
+    }
+    .admin-tabs button {
+      background: none;
+      border: none;
+      color: #e0e0e0;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      border-radius: 5px 5px 0 0;
+      font-weight: bold;
+    }
+    .admin-tabs button:hover {
+      background-color: #4a4a6a;
+    }
+    .admin-tabs button.active {
+      background-color: #007bff;
+      color: white;
+    }
+    .tab-content {
+      display: none;
+      padding-top: 1.5rem;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Series & Episode List in Admin */
+    .admin-list-item {
+      background-color: #3a3a5a;
+      padding: 12px 18px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+    }
+    .admin-list-item span {
+      flex-grow: 1;
+    }
+    .admin-list-item button {
+      margin-left: 10px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+    #currentSelectedSeries {
+        color: #ffc107;
+        font-weight: bold;
+        margin-top: 1rem;
+        display: block;
+        padding: 8px 0;
+    }
+    #selectSeriesForEpisodeManagement label,
+    #selectSeries label {
+        display: block;
+        margin-bottom: 5px;
+        color: #bbb;
+        font-weight: bold;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+  <header>
+    <h1>My Webtoon Hub</h1>
+    <div class="auth-buttons">
+      <button id="signInBtn">Sign In with Google</button>
+      <button id="signOutBtn" style="display: none;">Sign Out</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="webtoonViewer">
+      <h2>Webtoon Viewer</h2>
+      <div id="seriesSelector" style="margin-bottom: 2rem;">
+        <label for="selectSeries">Select Series:</label>
+        <select id="selectSeries">
+          <option value="">Loading series...</option>
+        </select>
+      </div>
+
+      <h3 id="currentSeriesTitle">No Series Selected</h3>
+      <h4 id="currentEpisodeTitle"></h4>
+      <img id="episodeImage" src="" alt="Webtoon Episode Image" style="margin-bottom: 1.5rem;" />
+
+      <div class="episode-nav">
+        <button id="prevEpisodeBtn" disabled>Previous Episode</button>
+        <button id="nextEpisodeBtn" disabled>Next Episode</button>
+      </div>
+
+      <h4>Episodes</h4>
+      <div id="episodeList">
+        </div>
+
+      <div id="commentsSection">
+        <h3>Comments</h3>
+        <div id="commentsContainer">
+          </div>
+        <div id="commentInputSection" style="display: none;">
+          <textarea id="commentInput" placeholder="Add a comment..."></textarea>
+          <button id="postCommentBtn">Post Comment</button>
+        </div>
+        <p id="commentSignInPrompt" style="display: block;">Please sign in to post comments.</p>
+      </div>
+    </section>
+
+    <section id="adminPanel" style="display: none;">
+      <h2>Admin Panel</h2>
+
+      <div class="admin-tabs">
+        <button class="tab-button active" data-tab="seriesManagementTab">Series Management</button>
+        <button class="tab-button" data-tab="episodeManagementTab">Episode Management</button>
+        <button class="tab-button" data-tab="adminUsersTab">Admin Users</button>
+      </div>
+
+      <div id="seriesManagementTab" class="tab-content active">
+        <h3>Add New Series</h3>
+        <input type="text" id="newSeriesName" placeholder="New Series Name">
+        <textarea id="newSeriesDescription" placeholder="Series Description (Optional)"></textarea>
+        <button onclick="addNewSeries()">Add Series</button>
+
+        <h3>Existing Series</h3>
+        <div id="existingSeriesList">
+          </div>
+      </div>
+
+      <div id="episodeManagementTab" class="tab-content">
+        <h3>Manage Episodes for: <span id="currentSelectedSeries">None Selected</span></h3>
+        <div id="selectSeriesForEpisodeManagement" style="margin-bottom: 1rem;">
+            <label for="selectSeriesAdmin">Select Series:</label>
+            <select id="selectSeriesAdmin">
+                <option value="">Choose a series to manage episodes...</option>
+            </select>
+        </div>
+
+        <div id="addEpisodeForm" style="display: none;">
+            <h3>Add New Episode</h3>
+            <input type="text" id="newEpisodeTitle" placeholder="Episode Title">
+            <input type="number" id="newEpisodeOrder" placeholder="Episode Order (e.g., 1, 2, 3)">
+            <label for="newEpisodeImageUpload" style="display: block; margin-top: 1rem; color: #bbb;">Upload Image:</label>
+            <input type="file" id="newEpisodeImageUpload">
+            <p style="margin-top: 0.5rem; color: #bbb;">OR paste image URL (if not uploading):</p>
+            <input type="url" id="newEpisodeImageUrl" placeholder="Image URL (optional)">
+            <button onclick="addNewEpisode()">Add Episode</button>
+        </div>
+
+        <h3>Episodes in Selected Series</h3>
+        <div id="episodesInCurrentSeries">
+          <p id="noEpisodesMessage">Select a series above to manage its episodes.</p>
+        </div>
+      </div>
+
+      <div id="adminUsersTab" class="tab-content">
+        <h3>Manage Admins</h3>
+        <input type="email" id="adminEmail" placeholder="Admin Email">
+        <button onclick="addAdmin()">Add Admin</button>
+        <button onclick="removeAdmin()">Remove Admin</button>
+        <h3>Current Admins</h3>
+        <div id="currentAdminsList">
+            </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Firebase Configuration - REPLACE WITH YOURS
+    const firebaseConfig = {
+      apiKey: "AIzaSyAUwehoDw59OEiTJCpdRzSHN3QLpf23iis",
+      authDomain: "web-toon-project.firebaseapp.com",
+      projectId: "web-toon-project",
+      storageBucket: "web-toon-project.firebasestorage.app",
+      messagingSenderId: "66534088549",
+      appId: "1:66534088549:web:285c42cb8861c06f6a0b8c",
+      measurementId: "G-F8TC1GJ6ZX"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    // UI Elements
+    const signInBtn = document.getElementById("signInBtn");
+    const signOutBtn = document.getElementById("signOutBtn");
+    const adminPanel = document.getElementById("adminPanel");
+    const selectSeries = document.getElementById("selectSeries");
+    const currentSeriesTitle = document.getElementById("currentSeriesTitle");
+    const currentEpisodeTitle = document.getElementById("currentEpisodeTitle");
+    const episodeImage = document.getElementById("episodeImage");
+    const prevEpisodeBtn = document.getElementById("prevEpisodeBtn");
+    const nextEpisodeBtn = document.getElementById("nextEpisodeBtn");
+    const episodeListDiv = document.getElementById("episodeList");
+    const commentsContainer = document.getElementById("commentsContainer");
+    const commentInput = document.getElementById("commentInput");
+    const postCommentBtn = document.getElementById("postCommentBtn");
+    const commentInputSection = document.getElementById("commentInputSection");
+    const commentSignInPrompt = document.getElementById("commentSignInPrompt");
+
+    const newSeriesNameInput = document.getElementById("newSeriesName");
+    const newSeriesDescriptionInput = document.getElementById("newSeriesDescription");
+    const existingSeriesListDiv = document.getElementById("existingSeriesList");
+    const selectSeriesAdmin = document.getElementById("selectSeriesAdmin");
+    const currentSelectedSeriesSpan = document.getElementById("currentSelectedSeries");
+    const addEpisodeForm = document.getElementById("addEpisodeForm");
+    const newEpisodeTitleInput = document.getElementById("newEpisodeTitle");
+    const newEpisodeOrderInput = document.getElementById("newEpisodeOrder");
+    const newEpisodeImageUploadInput = document.getElementById("newEpisodeImageUpload");
+    const newEpisodeImageUrlInput = document.getElementById("newEpisodeImageUrl");
+    const episodesInCurrentSeriesDiv = document.getElementById("episodesInCurrentSeries");
+    const noEpisodesMessage = document.getElementById("noEpisodesMessage");
+    const adminEmailInput = document.getElementById("adminEmail");
+    const currentAdminsListDiv = document.getElementById("currentAdminsList");
+
+    let currentSeriesId = null;
+    let currentEpisodeId = null;
+    let allEpisodesInCurrentSeries = [];
+    let currentEpisodeIndex = -1;
+    let currentUser = null;
+    let isAdmin = false;
+
+    // --- Utility Functions for User Comfort ---
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.textContent = message;
+      notification.style.position = 'fixed';
+      notification.style.top = '20px';
+      notification.style.left = '50%';
+      notification.style.transform = 'translateX(-50%)';
+      notification.style.backgroundColor = type === 'error' ? '#f44336' : '#4CAF50';
+      notification.style.color = 'white';
+      notification.style.padding = '15px';
+      notification.style.borderRadius = '5px';
+      notification.style.zIndex = '1000';
+      notification.style.textAlign = 'center';
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        notification.remove();
+      }, 3000); // Remove after 3 seconds
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function sanitizeInput(text) {
+      // Basic sanitization to prevent XSS in displayed text
+      const tempElement = document.createElement('div');
+      tempElement.textContent = text;
+      return tempElement.innerHTML;
+    }
+
+    // --- Authentication Logic ---
+    signInBtn.onclick = () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          showNotification(`Welcome, ${result.user.displayName || result.user.email}!`);
+        })
+        .catch(error => {
+          console.error("Google Sign-in Error:", error);
+          showNotification(`Sign-in failed: ${error.message}`, 'error');
+        });
+    };
+
+    signOutBtn.onclick = () => {
+      auth.signOut().then(() => {
+        showNotification("Signed out successfully.");
+      }).catch(error => {
+        console.error("Sign-out Error:", error);
+        showNotification(`Sign-out failed: ${error.message}`, 'error');
+      });
+    };
+
+    auth.onAuthStateChanged(async user => {
+      currentUser = user;
+      if (user) {
+        signInBtn.style.display = "none";
+        signOutBtn.style.display = "inline-block";
+        commentInputSection.style.display = "block";
+        commentSignInPrompt.style.display = "none";
+
+        try {
+          const adminDoc = await db.collection("admins").doc(user.email).get();
+          if (adminDoc.exists || user.email === "anirudhrajesh04@gmail.com") {
+            isAdmin = true;
+            adminPanel.style.display = "block";
+            loadAllSeriesForAdmin();
+            loadAdminsList();
+            // Load series for admin episode management dropdown
+            loadSeriesForEpisodeManagement();
+          } else {
+            isAdmin = false;
+            adminPanel.style.display = "none";
+          }
+        } catch (error) {
+          console.error("Error checking admin status:", error);
+          showNotification("Failed to check admin status.", "error");
+          isAdmin = false;
+          adminPanel.style.display = "none";
+        }
+
+      } else {
+        isAdmin = false;
+        adminPanel.style.display = "none";
+        signInBtn.style.display = "inline-block";
+        signOutBtn.style.display = "none";
+        commentInputSection.style.display = "none";
+        commentSignInPrompt.style.display = "block";
+      }
+      // Always reload comments as user status affects ability to post
+      loadCommentsForCurrentEpisode();
+    });
+
+    // --- Webtoon Viewer Logic ---
+    async function loadSeriesSelector() {
+      selectSeries.innerHTML = '<option value="">Loading series...</option>';
+      try {
+        const seriesSnapshot = await db.collection("series").orderBy("createdAt", "asc").get();
+        if (seriesSnapshot.empty) {
+          selectSeries.innerHTML = '<option value="">No series available. Admins can add new series.</option>';
+          return;
+        }
+        selectSeries.innerHTML = '<option value="">Select a series</option>'; // Default empty option
+        seriesSnapshot.forEach(doc => {
+          const seriesData = doc.data();
+          const option = document.createElement("option");
+          option.value = doc.id;
+          option.innerText = sanitizeInput(seriesData.name);
+          selectSeries.appendChild(option);
+        });
+
+        // Try to load the first series by default if available and no series is currently selected
+        if (seriesSnapshot.docs.length > 0 && !currentSeriesId) {
+            const firstSeriesId = seriesSnapshot.docs[0].id;
+            selectSeries.value = firstSeriesId; // Set the dropdown to the first series
+            loadSeries(firstSeriesId);
+        } else if (currentSeriesId) {
+            // If a series is already selected (e.g., after refreshing admin section), keep it selected
+            selectSeries.value = currentSeriesId;
+        }
+
+      } catch (error) {
+        console.error("Error loading series selector:", error);
+        selectSeries.innerHTML = '<option value="">Error loading series</option>';
+        showNotification("Failed to load series. Please check your internet connection.", "error");
+      }
+    }
+
+    async function loadSeries(seriesId) {
+      if (!seriesId) {
+        currentSeriesId = null;
+        currentSeriesTitle.innerText = "No Series Selected";
+        currentEpisodeTitle.innerText = "";
+        episodeImage.src = "";
+        episodeListDiv.innerHTML = "";
+        commentsContainer.innerHTML = "";
+        prevEpisodeBtn.disabled = true;
+        nextEpisodeBtn.disabled = true;
+        showNotification("Please select a webtoon series.");
+        return;
+      }
+
+      currentSeriesId = seriesId;
+      try {
+        const seriesDoc = await db.collection("series").doc(seriesId).get();
+        if (seriesDoc.exists) {
+          currentSeriesTitle.innerText = sanitizeInput(seriesDoc.data().name);
+        } else {
+          currentSeriesTitle.innerText = "Series not found.";
+          showNotification("Selected series does not exist.", "error");
+          return;
+        }
+
+        // Load episodes for the selected series
+        await loadEpisodesForSeries(seriesId);
+
+        // Load the default or first episode
+        let initialEpisodeId = seriesDoc.data().defaultEpisodeId || (allEpisodesInCurrentSeries.length > 0 ? allEpisodesInCurrentSeries[0].id : null);
+        if (initialEpisodeId) {
+            loadEpisode(initialEpisodeId);
+        } else {
+            currentEpisodeTitle.innerText = "No episodes in this series yet. Admins can add them.";
+            episodeImage.src = "";
+            showNotification("No episodes found for this series.", "info");
+        }
+      } catch (error) {
+        console.error("Error loading series data:", error);
+        currentSeriesTitle.innerText = "Error loading series";
+        showNotification("Failed to load series data.", "error");
+      }
+    }
+
+    async function loadEpisodesForSeries(seriesId) {
+      allEpisodesInCurrentSeries = [];
+      episodeListDiv.innerHTML = "<p>Loading episodes...</p>";
+      try {
+        const episodesSnapshot = await db.collection("series").doc(seriesId)
+                                        .collection("episodes").orderBy("order", "asc").get();
+
+        if (episodesSnapshot.empty) {
+          episodeListDiv.innerHTML = "<p>No episodes found for this series.</p>";
+          return;
+        }
+
+        episodesSnapshot.forEach(doc => {
+          allEpisodesInCurrentSeries.push({ id: doc.id, ...doc.data() });
+        });
+
+        renderEpisodeList();
+      } catch (error) {
+        console.error("Error loading episodes:", error);
+        episodeListDiv.innerHTML = "<p>Error loading episodes.</p>";
+        showNotification("Failed to load episodes.", "error");
+      }
+    }
+
+    function renderEpisodeList() {
+      episodeListDiv.innerHTML = "";
+      allEpisodesInCurrentSeries.forEach(episode => {
+        const button = document.createElement("button");
+        button.innerText = `E${episode.order}: ${sanitizeInput(episode.title)}`;
+        button.onclick = () => loadEpisode(episode.id);
+        if (episode.id === currentEpisodeId) {
+          button.classList.add('active');
+        }
+        episodeListDiv.appendChild(button);
+      });
+    }
+
+    async function loadEpisode(episodeId) {
+      if (!currentSeriesId) {
+        showNotification("Please select a series first.", "error");
+        return;
+      }
+
+      currentEpisodeId = episodeId;
+      currentEpisodeIndex = allEpisodesInCurrentSeries.findIndex(ep => ep.id === episodeId);
+
+      try {
+        const episodeDoc = await db.collection("series").doc(currentSeriesId)
+                                  .collection("episodes").doc(episodeId).get();
+
+        if (episodeDoc.exists) {
+          const episodeData = episodeDoc.data();
+          currentEpisodeTitle.innerText = `Episode ${episodeData.order}: ${sanitizeInput(episodeData.title)}`;
+          episodeImage.src = sanitizeInput(episodeData.imageUrl);
+          episodeImage.alt = `Episode ${episodeData.order}: ${sanitizeInput(episodeData.title)}`;
+          scrollToTop(); // Scroll to top after loading new episode
+        } else {
+          currentEpisodeTitle.innerText = "Episode not found.";
+          episodeImage.src = ""; // Clear image
+          showNotification("Selected episode does not exist.", "error");
+        }
+      } catch (error) {
+        console.error("Error loading episode:", error);
+        currentEpisodeTitle.innerText = "Error loading episode";
+        episodeImage.src = "";
+        showNotification("Failed to load episode content.", "error");
+      }
+
+      updateEpisodeNavigationButtons();
+      renderEpisodeList(); // Update active episode in list
+      loadCommentsForCurrentEpisode(); // Reload comments for the new episode
+    }
+
+    function updateEpisodeNavigationButtons() {
+      prevEpisodeBtn.disabled = currentEpisodeIndex <= 0;
+      nextEpisodeBtn.disabled = currentEpisodeIndex >= allEpisodesInCurrentSeries.length - 1;
+    }
+
+    prevEpisodeBtn.onclick = () => {
+      if (currentEpisodeIndex > 0) {
+        loadEpisode(allEpisodesInCurrentSeries[currentEpisodeIndex - 1].id);
+      }
+    };
+
+    nextEpisodeBtn.onclick = () => {
+      if (currentEpisodeIndex < allEpisodesInCurrentSeries.length - 1) {
+        loadEpisode(allEpisodesInCurrentSeries[currentEpisodeIndex + 1].id);
+      }
+    };
+
+    selectSeries.onchange = (event) => {
+      loadSeries(event.target.value);
+    };
+
+    // --- Comments Logic ---
+    postCommentBtn.onclick = async () => {
+      if (!currentUser || !currentSeriesId || !currentEpisodeId) {
+        showNotification("Please sign in and select an episode to post a comment.", "error");
+        return;
+      }
+      const commentText = commentInput.value.trim();
+      if (!commentText) {
+          showNotification("Comment cannot be empty.", "error");
+          return;
+      }
+
+      postCommentBtn.disabled = true; // Disable button to prevent double clicks
+      try {
+        await db.collection("series").doc(currentSeriesId)
+                .collection("episodes").doc(currentEpisodeId)
+                .collection("comments").add({
+                  userId: currentUser.uid,
+                  userName: currentUser.displayName || currentUser.email,
+                  commentText: commentText,
+                  timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+        commentInput.value = "";
+        showNotification("Comment posted!");
+        loadCommentsForCurrentEpisode(); // Refresh comments
+      } catch (error) {
+        console.error("Error posting comment:", error);
+        showNotification("Failed to post comment. Please try again.", "error");
+      } finally {
+          postCommentBtn.disabled = false; // Re-enable button
+      }
+    };
+
+    async function loadCommentsForCurrentEpisode() {
+      commentsContainer.innerHTML = "<p>Loading comments...</p>";
+      if (!currentSeriesId || !currentEpisodeId) {
+        commentsContainer.innerHTML = "<p>Select an episode to view comments.</p>";
+        return;
+      }
+
+      try {
+        const commentsSnapshot = await db.collection("series").doc(currentSeriesId)
+                                        .collection("episodes").doc(currentEpisodeId)
+                                        .collection("comments").orderBy("timestamp", "asc").get();
+
+        if (commentsSnapshot.empty) {
+          commentsContainer.innerHTML = "<p>No comments yet. Be the first!</p>";
+          return;
+        }
+
+        commentsContainer.innerHTML = "";
+        commentsSnapshot.forEach(doc => {
+          const comment = doc.data();
+          const commentDiv = document.createElement("div");
+          commentDiv.classList.add("comment-item");
+          const date = comment.timestamp ? new Date(comment.timestamp.seconds * 1000).toLocaleString() : 'Just now';
+          commentDiv.innerHTML = `
+            <p><span class="comment-author">${sanitizeInput(comment.userName)}</span> <span class="comment-date">${date}</span></p>
+            <p class="comment-text">${sanitizeInput(comment.commentText)}</p>
+          `;
+          commentsContainer.appendChild(commentDiv);
+        });
+      } catch (error) {
+        console.error("Error loading comments:", error);
+        commentsContainer.innerHTML = "<p>Error loading comments.</p>";
+        showNotification("Failed to load comments.", "error");
+      }
+    }
+
+    // --- Admin Panel Logic ---
+    const tabButtons = document.querySelectorAll('.admin-tabs .tab-button');
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabId = button.dataset.tab;
+            // Deactivate all tab buttons and content
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            // Activate clicked tab button and corresponding content
+            button.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            // Specific actions for tab changes
+            if (tabId === 'episodeManagementTab') {
+                loadSeriesForEpisodeManagement();
+            } else if (tabId === 'adminUsersTab') {
+                loadAdminsList();
+            } else if (tabId === 'seriesManagementTab') {
+                loadAllSeriesForAdmin();
+            }
+        });
+    });
+
+
+    // --- Admin: Series Management ---
+    async function addNewSeries() {
+      const name = newSeriesNameInput.value.trim();
+      const description = newSeriesDescriptionInput.value.trim();
+
+      if (!name) {
+        showNotification("Series name cannot be empty.", "error");
+        return;
+      }
+      
+      const addSeriesBtn = document.querySelector('#seriesManagementTab button[onclick="addNewSeries()"]');
+      addSeriesBtn.disabled = true; // Disable button
+
+      try {
+        await db.collection("series").add({
+          name: name,
+          description: description,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        newSeriesNameInput.value = "";
+        newSeriesDescriptionInput.value = "";
+        showNotification("Series added successfully!");
+        loadSeriesSelector(); // Refresh viewer series list
+        loadAllSeriesForAdmin(); // Refresh admin series list
+        loadSeriesForEpisodeManagement(); // Refresh episode management series list
+      } catch (error) {
+        console.error("Error adding series:", error);
+        showNotification("Failed to add series. Please try again.", "error");
+      } finally {
+          addSeriesBtn.disabled = false; // Re-enable button
+      }
+    }
+
+    async function loadAllSeriesForAdmin() {
+      existingSeriesListDiv.innerHTML = "<p>Loading series...</p>";
+      try {
+        const seriesSnapshot = await db.collection("series").orderBy("createdAt", "asc").get();
+        if (seriesSnapshot.empty) {
+          existingSeriesListDiv.innerHTML = "<p>No series created yet.</p>";
+          return;
+        }
+        existingSeriesListDiv.innerHTML = "";
+        seriesSnapshot.forEach(doc => {
+          const seriesData = doc.data();
+          const seriesItem = document.createElement("div");
+          seriesItem.classList.add("admin-list-item");
+          seriesItem.innerHTML = `
+            <span>${sanitizeInput(seriesData.name)} (ID: ${doc.id})</span>
+            <button class="delete-btn" onclick="deleteSeries('${doc.id}', '${sanitizeInput(seriesData.name)}')">Delete</button>
+          `;
+          existingSeriesListDiv.appendChild(seriesItem);
+        });
+      } catch (error) {
+        console.error("Error loading series for admin:", error);
+        existingSeriesListDiv.innerHTML = "<p>Error loading series.</p>";
+        showNotification("Failed to load series for admin panel.", "error");
+      }
+    }
+
+    async function deleteSeries(seriesId, seriesName) {
+        if (!confirm(`Are you sure you want to delete the series "${seriesName}"? This will delete all its episodes and comments.`)) {
+            return;
+        }
+
+        try {
+            showNotification(`Deleting series "${seriesName}"...`);
+            // 1. Delete all comments within all episodes
+            const episodesSnapshot = await db.collection("series").doc(seriesId).collection("episodes").get();
+            for (const episodeDoc of episodesSnapshot.docs) {
+                const commentsSnapshot = await db.collection("series").doc(seriesId).collection("episodes").doc(episodeDoc.id).collection("comments").get();
+                const batch = db.batch();
+                commentsSnapshot.forEach(commentDoc => {
+                    batch.delete(commentDoc.ref);
+                });
+                await batch.commit();
+            }
+
+            // 2. Delete all episodes (and associated images in storage)
+            for (const episodeDoc of episodesSnapshot.docs) {
+                const episodeData = episodeDoc.data();
+                if (episodeData.imageUrl && episodeData.imageUrl.startsWith('gs://')) {
+                    // Delete image from storage
+                    const imageRef = storage.refFromURL(episodeData.imageUrl);
+                    try {
+                        await imageRef.delete();
+                    } catch (error) {
+                        console.warn(`Could not delete image for episode ${episodeDoc.id}:`, error.message);
+                    }
+                }
+                await db.collection("series").doc(seriesId).collection("episodes").doc(episodeDoc.id).delete();
+            }
+
+            // 3. Delete the series document itself
+            await db.collection("series").doc(seriesId).delete();
+
+            showNotification(`Series "${seriesName}" and all its content deleted.`, "info");
+            loadSeriesSelector(); // Refresh viewer series list
+            loadAllSeriesForAdmin(); // Refresh admin series list
+            loadSeriesForEpisodeManagement(); // Refresh episode management series list
+            // If the deleted series was currently viewed, reset viewer
+            if (currentSeriesId === seriesId) {
+                loadSeries(null);
+            }
+        } catch (error) {
+            console.error("Error deleting series:", error);
+            showNotification(`Failed to delete series "${seriesName}".`, "error");
+        }
+    }
+
+
+    // --- Admin: Episode Management ---
+    async function loadSeriesForEpisodeManagement() {
+        selectSeriesAdmin.innerHTML = '<option value="">Loading series...</option>';
+        try {
+            const seriesSnapshot = await db.collection("series").orderBy("createdAt", "asc").get();
+            if (seriesSnapshot.empty) {
+                selectSeriesAdmin.innerHTML = '<option value="">No series to manage episodes for</option>';
+                currentSelectedSeriesSpan.innerText = "None Selected";
+                addEpisodeForm.style.display = 'none';
+                episodesInCurrentSeriesDiv.innerHTML = "";
+                noEpisodesMessage.style.display = 'block';
+                return;
+            }
+            selectSeriesAdmin.innerHTML = '<option value="">Select a series</option>';
+            seriesSnapshot.forEach(doc => {
+                const seriesData = doc.data();
+                const option = document.createElement("option");
+                option.value = doc.id;
+                option.innerText = sanitizeInput(seriesData.name);
+                selectSeriesAdmin.appendChild(option);
+            });
+
+            // Clear display if no series selected initially or after refresh
+            currentSelectedSeriesSpan.innerText = "None Selected";
+            addEpisodeForm.style.display = 'none';
+            episodesInCurrentSeriesDiv.innerHTML = "";
+            noEpisodesMessage.style.display = 'block';
+        } catch (error) {
+            console.error("Error loading series for episode management:", error);
+            selectSeriesAdmin.innerHTML = '<option value="">Error loading series</option>';
+            showNotification("Failed to load series for episode management.", "error");
+        }
+    }
+
+    selectSeriesAdmin.onchange = (event) => {
+        const selectedId = event.target.value;
+        if (selectedId) {
+            const selectedName = selectSeriesAdmin.options[selectSeriesAdmin.selectedIndex].text;
+            currentSelectedSeriesSpan.innerText = sanitizeInput(selectedName);
+            addEpisodeForm.style.display = 'block';
+            loadEpisodesForAdmin(selectedId);
+            noEpisodesMessage.style.display = 'none';
+        } else {
+            currentSelectedSeriesSpan.innerText = "None Selected";
+            addEpisodeForm.style.display = 'none';
+            episodesInCurrentSeriesDiv.innerHTML = "";
+            noEpisodesMessage.style.display = 'block';
+        }
+    };
+
+    async function addNewEpisode() {
+      const seriesId = selectSeriesAdmin.value;
+      if (!seriesId) {
+        showNotification("Please select a series first.", "error");
+        return;
+      }
+
+      const title = newEpisodeTitleInput.value.trim();
+      const order = parseInt(newEpisodeOrderInput.value);
+      const imageFile = newEpisodeImageUploadInput.files[0];
+      const imageUrlInput = newEpisodeImageUrlInput.value.trim();
+
+      if (!title || isNaN(order)) {
+        showNotification("Episode title and order cannot be empty.", "error");
+        return;
+      }
+      if (!imageFile && !imageUrlInput) {
+          showNotification("Please upload an image file OR provide an image URL.", "error");
+          return;
+      }
+      if (imageFile && imageUrlInput) {
+          showNotification("Please use either file upload OR URL, not both.", "error");
+          return;
+      }
+
+      const addEpisodeBtn = document.querySelector('#addEpisodeForm button[onclick="addNewEpisode()"]');
+      addEpisodeBtn.disabled = true; // Disable button
+
+      let imageUrl = imageUrlInput; // Default to URL from input
+      if (imageFile) {
+        showNotification("Uploading image...", "info");
+        // Upload image to Firebase Storage
+        const storageRef = storage.ref(`series/${seriesId}/episodes/${new Date().getTime()}_${imageFile.name}`);
+        const uploadTask = storageRef.put(imageFile);
+
+        try {
+          await uploadTask;
+          imageUrl = await storageRef.getDownloadURL();
+          showNotification("Image uploaded successfully!");
+        } catch (error) {
+          console.error("Image upload failed:", error);
+          showNotification(`Failed to upload image: ${error.message}`, "error");
+          addEpisodeBtn.disabled = false; // Re-enable button on failure
+          return;
+        }
+      }
+
+      try {
+        await db.collection("series").doc(seriesId).collection("episodes").add({
+          title: title,
+          order: order,
+          imageUrl: imageUrl,
+          uploadDate: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        newEpisodeTitleInput.value = "";
+        newEpisodeOrderInput.value = "";
+        newEpisodeImageUploadInput.value = ""; // Clear file input
+        newEpisodeImageUrlInput.value = "";
+        showNotification("Episode added successfully!");
+        loadEpisodesForAdmin(seriesId); // Refresh episode list for admin
+        loadEpisodesForSeries(currentSeriesId); // Refresh episodes in viewer if viewing current series
+      } catch (error) {
+          console.error("Error adding episode to Firestore:", error);
+          showNotification("Failed to add episode data. Please try again.", "error");
+      } finally {
+          addEpisodeBtn.disabled = false; // Re-enable button
+      }
+    }
+
+    async function loadEpisodesForAdmin(seriesId) {
+        episodesInCurrentSeriesDiv.innerHTML = "<p>Loading episodes...</p>";
+        try {
+            const episodesSnapshot = await db.collection("series").doc(seriesId)
+                                            .collection("episodes").orderBy("order", "asc").get();
+
+            if (episodesSnapshot.empty) {
+                episodesInCurrentSeriesDiv.innerHTML = "<p>No episodes added to this series yet.</p>";
+                return;
+            }
+
+            episodesInCurrentSeriesDiv.innerHTML = "";
+            episodesSnapshot.forEach(doc => {
+                const episodeData = doc.data();
+                const episodeItem = document.createElement("div");
+                episodeItem.classList.add("admin-list-item");
+                episodeItem.innerHTML = `
+                    <span>E${episodeData.order}: ${sanitizeInput(episodeData.title)}</span>
+                    <div>
+                        <button onclick="editEpisode('${seriesId}', '${doc.id}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEpisode('${seriesId}', '${doc.id}', '${sanitizeInput(episodeData.imageUrl)}', '${sanitizeInput(episodeData.title)}')">Delete</button>
+                    </div>
+                `;
+                episodesInCurrentSeriesDiv.appendChild(episodeItem);
+            });
+        } catch (error) {
+            console.error("Error loading episodes for admin:", error);
+            episodesInCurrentSeriesDiv.innerHTML = "<p>Error loading episodes.</p>";
+            showNotification("Failed to load episodes for admin panel.", "error");
+        }
+    }
+
+    async function deleteEpisode(seriesId, episodeId, imageUrl, episodeTitle) {
+        if (!confirm(`Are you sure you want to delete episode "${episodeTitle}"? This will delete associated comments and image.`)) {
+            return;
+        }
+
+        try {
+            showNotification(`Deleting episode "${episodeTitle}"...`);
+            // Delete comments first
+            const commentsSnapshot = await db.collection("series").doc(seriesId).collection("episodes").doc(episodeId).collection("comments").get();
+            const batch = db.batch();
+            commentsSnapshot.forEach(commentDoc => {
+                batch.delete(commentDoc.ref);
+            });
+            await batch.commit();
+
+            // Delete image from storage if it's a storage URL
+            if (imageUrl && imageUrl.startsWith('gs://')) {
+                const imageRef = storage.refFromURL(imageUrl);
+                try {
+                    await imageRef.delete();
+                } catch (error) {
+                    console.warn(`Could not delete image for episode ${episodeId}:`, error.message);
+                    showNotification(`Warning: Image for ${episodeTitle} could not be deleted from storage.`, "info");
+                }
+            }
+
+            // Delete episode document
+            await db.collection("series").doc(seriesId).collection("episodes").doc(episodeId).delete();
+
+            showNotification(`Episode "${episodeTitle}" deleted successfully.`, "info");
+            loadEpisodesForAdmin(seriesId); // Refresh admin list
+            loadEpisodesForSeries(seriesId); // Refresh viewer list
+            // If current episode is deleted, try to load first episode of series
+            if (currentEpisodeId === episodeId) {
+                loadSeries(seriesId); // This will attempt to load the first episode or reset
+            }
+        } catch (error) {
+            console.error("Error deleting episode:", error);
+            showNotification(`Failed to delete episode "${episodeTitle}".`, "error");
+        }
+    }
+
+    async function editEpisode(seriesId, episodeId) {
+        showNotification("Edit functionality is a future enhancement!"); // Placeholder for future enhancement
+        // This would involve loading episode data into the form,
+        // changing "Add Episode" to "Update Episode", etc.
+    }
+
+
+    // --- Admin: Admin Users Management ---
+    async function addAdmin() {
+      const email = adminEmailInput.value.trim();
+      if (!email) {
+          showNotification("Please enter an email to add as admin.", "error");
+          return;
+      }
+      if (email === "anirudhrajesh04@gmail.com") {
+          showNotification("The super admin is always an admin.", "info");
+          adminEmailInput.value = "";
+          return;
+      }
+
+      if (currentUser && currentUser.email === "anirudhrajesh04@gmail.com") {
+        try {
+            await db.collection("admins").doc(email).set({ added: true });
+            showNotification(`Admin ${email} added.`);
+            adminEmailInput.value = "";
+            loadAdminsList();
+        } catch (error) {
+            console.error("Error adding admin:", error);
+            showNotification(`Failed to add admin ${email}.`, "error");
+        }
+      } else {
+        showNotification("Only the super admin (anirudhrajesh04@gmail.com) can add other admins.", "error");
+      }
+    }
+
+    async function removeAdmin() {
+      const email = adminEmailInput.value.trim();
+      if (!email) {
+          showNotification("Please enter an email to remove from admins.", "error");
+          return;
+      }
+      if (email === "anirudhrajesh04@gmail.com") {
+          showNotification("The super admin cannot remove themselves.", "error");
+          return;
+      }
+
+      if (currentUser && currentUser.email === "anirudhrajesh04@gmail.com") {
+        try {
+            await db.collection("admins").doc(email).delete();
+            showNotification(`Admin ${email} removed.`);
+            adminEmailInput.value = "";
+            loadAdminsList();
+        } catch (error) {
+            console.error("Error removing admin:", error);
+            showNotification(`Failed to remove admin ${email}.`, "error");
+        }
+      } else {
+          showNotification("Only the super admin (anirudhrajesh04@gmail.com) can remove other admins.", "error");
+      }
+    }
+
+    async function loadAdminsList() {
+        currentAdminsListDiv.innerHTML = "<p>Loading admins...</p>";
+        try {
+            const adminsSnapshot = await db.collection("admins").get();
+            if (adminsSnapshot.empty) {
+                currentAdminsListDiv.innerHTML = "<p>No custom admins added yet.</p>";
+                return;
+            }
+            currentAdminsListDiv.innerHTML = "";
+            const adminEmails = [];
+            adminsSnapshot.forEach(doc => {
+                adminEmails.push(doc.id); // doc.id is the email
+            });
+
+            // Ensure the super admin is always listed and marked
+            if (!adminEmails.includes("anirudhrajesh04@gmail.com")) {
+                 adminEmails.unshift("anirudhrajesh04@gmail.com (Super Admin)");
+            } else {
+                const index = adminEmails.indexOf("anirudhrajesh04@gmail.com");
+                adminEmails[index] = "anirudhrajesh04@gmail.com (Super Admin)";
+            }
+
+            adminEmails.forEach(email => {
+                const adminItem = document.createElement("div");
+                adminItem.classList.add("admin-list-item");
+                adminItem.innerHTML = `<span>${sanitizeInput(email)}</span>`;
+                currentAdminsListDiv.appendChild(adminItem);
+            });
+        } catch (error) {
+            console.error("Error loading admins list:", error);
+            currentAdminsListDiv.innerHTML = "<p>Error loading admins.</p>";
+            showNotification("Failed to load admin list.", "error");
+        }
+    }
+
+    // Initial Load
+    // This will trigger the series selector and potentially load the first series.
+    // auth.onAuthStateChanged will handle admin panel visibility and further loads.
+    loadSeriesSelector();
+  </script>
+</body>
+</html>
